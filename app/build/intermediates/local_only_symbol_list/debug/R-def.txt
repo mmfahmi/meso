@@ -1,8 +1,11 @@
 R_DEF: Internal format may change without notice
 local
+drawable badge_background
 drawable ic_launcher
+drawable ic_pause
 drawable ic_settings
 drawable ic_shield
+id badgeIcon
 id enableAccessibilityButton
 id enableDiscordSwitch
 id enableFacebookSwitch
@@ -11,13 +14,16 @@ id enableOverlayButton
 id enableRedditSwitch
 id enableTwitterSwitch
 id labelText
-id openSettingsButton
+id platformText
+id riskText
 id sensitivitySeekBar
 id sensitivityText
 id showMinimalRiskSwitch
+id startServiceButton
 id statusText
 layout activity_main
 layout activity_settings
+layout overlay_safety_badge
 layout post_overlay
 string accessibility_service_description
 string app_name
