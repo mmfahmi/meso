@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.socialmediasafety.rating.app-merged_res-44:/layout_activity_main.xml.flat",
+        "source": "com.socialmediasafety.rating.app-main-46:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.socialmediasafety.rating.app-merged_res-44:/layout_activity_settings.xml.flat",
+        "source": "com.socialmediasafety.rating.app-main-46:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.socialmediasafety.rating.app-merged_res-44:/xml_accessibility_service_config.xml.flat",
+        "source": "com.socialmediasafety.rating.app-main-46:/xml/accessibility_service_config.xml"
+    }
+]

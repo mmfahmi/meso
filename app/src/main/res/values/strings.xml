@@ -1,18 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Social Media Safety Rating</string>
-    <string name="accessibility_service_description">
-        Analyzes social media content for potential scams, phishing attempts, and other harmful content. 
-        Displays safety ratings as colored badges over posts to help protect you from online threats.
-        
-        This service monitors text content in supported social media apps including Twitter/X, Reddit, 
-        Facebook, Discord, and Instagram. All analysis is performed locally on your device and no data 
-        is transmitted externally.
-        
-        The service is designed to be minimally intrusive and only activates when viewing social media content.
-    </string>
-    <string name="notification_channel_name">Social Media Safety</string>
-    <string name="notification_channel_description">Notifications for social media safety monitoring</string>
-    <string name="monitoring_notification_title">Social Media Safety Active</string>
-    <string name="monitoring_notification_text">Protecting you from harmful content</string>
+﻿<resources>
+    <string name="app_name">Social Media Safety</string>
+    <string name="accessibility_service_description">Monitors social media usage for safety ratings</string>
+    <string name="notification_channel_name">Monitoring Service</string>
+    <string name="notification_channel_description">Channel for monitoring service notifications</string>
+    <string name="monitoring_notification_title">App Monitoring Active</string>
+    <string name="monitoring_notification_text">Monitoring social media usage</string>
 </resources>

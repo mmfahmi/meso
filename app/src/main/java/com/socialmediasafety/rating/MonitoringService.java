@@ -63,7 +63,7 @@ public class MonitoringService extends Service {
         return new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(getString(R.string.monitoring_notification_title))
                 .setContentText(getString(R.string.monitoring_notification_text))
-                .setSmallIcon(R.drawable.ic_shield_notification)
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setOngoing(true)
                 .setShowWhen(false)
