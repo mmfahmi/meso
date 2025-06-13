@@ -29,7 +29,7 @@
 
         <!-- Accessibility Service -->
         <service
-            android:name=".MesoAccessibilityService"
+            android:name=".MonitoringService"
             android:exported="false"
             android:foregroundServiceType="specialUse"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">

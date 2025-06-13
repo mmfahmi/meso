@@ -45,13 +45,18 @@ public class MonitoringService extends AccessibilityService {
         setServiceInfo(info);
 
         // Initialize components
-        overlayManager = new OverlayManager(this);
-        contentAnalyzer = new ContentAnalyzer();
+        try {
+            overlayManager = new OverlayManager(this);
+            contentAnalyzer = new ContentAnalyzer();
+            Log.d(TAG, "Components initialized successfully");
+        } catch (Exception e) {
+            Log.e(TAG, "Error initializing components", e);
+        }
 
         // Start foreground notification
         startForegroundNotification();
 
-        Log.d(TAG, "Monitoring service initialized");
+        Log.d(TAG, "Monitoring service initialized and ready");
     }
 
     @Override
@@ -67,20 +72,30 @@ public class MonitoringService extends AccessibilityService {
 
         Log.d(TAG, "Detected platform: " + platform + " in package: " + packageName);
 
-        // Extract content from screen
-        AccessibilityNodeInfo rootNode = getRootInActiveWindow();
-        if (rootNode != null) {
-            String extractedText = extractTextFromNode(rootNode);
-            if (!extractedText.isEmpty()) {
-                // Analyze content for risks
-                RiskAnalysis analysis = contentAnalyzer.analyzeContent(extractedText, platform);
+        try {
+            // Extract content from screen
+            AccessibilityNodeInfo rootNode = getRootInActiveWindow();
+            if (rootNode != null) {
+                String extractedText = extractTextFromNode(rootNode);
+                if (!extractedText.isEmpty()) {
+                    // Analyze content for risks
+                    RiskAnalysis analysis = contentAnalyzer.analyzeContent(extractedText, platform);
 
-                // Show overlay with results
-                overlayManager.showSafetyBadge(analysis, platform);
+                    // Show overlay with results (will check permissions internally)
+                    if (overlayManager != null) {
+                        overlayManager.showSafetyBadge(analysis, platform);
+                    }
 
-                Log.d(TAG, "Analysis complete. Risk level: " + analysis.getRiskLevel());
+                    Log.d(TAG, "Analysis complete. Risk level: " + analysis.getRiskLevel());
+                } else {
+                    Log.d(TAG, "No text extracted from " + platform);
+                }
+                rootNode.recycle();
+            } else {
+                Log.d(TAG, "Root node is null for " + platform);
             }
-            rootNode.recycle();
+        } catch (Exception e) {
+            Log.e(TAG, "Error processing accessibility event for " + platform, e);
         }
     }
 
@@ -110,20 +125,29 @@ public class MonitoringService extends AccessibilityService {
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
         );
 
+        // Create action intents
+        Intent settingsIntent = new Intent(this, MesoServiceReceiver.class);
+        settingsIntent.setAction("OPEN_SETTINGS");
+        PendingIntent settingsPendingIntent = PendingIntent.getBroadcast(
+                this, 1, settingsIntent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Social Media Safety Active")
-                .setContentText("Monitoring Twitter, Reddit, Facebook, Discord for threats")
+                .setContentText("✅ Monitoring Twitter, Reddit, Facebook, Discord, Instagram for threats")
                 .setSmallIcon(R.drawable.ic_shield)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .addAction(R.drawable.ic_settings, "Settings",
-                        PendingIntent.getActivity(this, 1, notificationIntent,
-                                PendingIntent.FLAG_IMMUTABLE))
+                .addAction(R.drawable.ic_settings, "Settings", settingsPendingIntent)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Monitoring social media apps for scams, phishing, and suspicious content. Tap to open settings."))
                 .build();
 
         startForeground(NOTIFICATION_ID, notification);
+        Log.d(TAG, "Foreground notification started");
     }
 
     private void createNotificationChannel() {

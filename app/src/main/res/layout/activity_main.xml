@@ -3,34 +3,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#f5f5f5">
 
     <TextView
         android:id="@+id/statusText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Status: Unknown"
-        android:textSize="18sp"
-        android:padding="8dp" />
+        android:text="Status: Loading..."
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:background="@android:color/white"
+        android:layout_marginBottom="16dp"
+        android:elevation="2dp"/>
 
     <Button
         android:id="@+id/enableAccessibilityButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enable Accessibility"
-        android:layout_marginTop="16dp" />
+        android:text="Enable Accessibility Service"
+        android:layout_marginBottom="8dp"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/enableOverlayButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enable Overlay"
-        android:layout_marginTop="8dp" />
+        android:text="Enable Overlay Permission (Optional)"
+        android:layout_marginBottom="16dp"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/startServiceButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Service"
-        android:layout_marginTop="16dp" />
+        android:text="Start Protection"
+        android:textAllCaps="false"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ℹ️ Note: Overlay permission is optional. The app will work with just the accessibility service, but overlays provide visual feedback."
+        android:textSize="12sp"
+        android:padding="8dp"
+        android:layout_marginTop="16dp"
+        android:background="#e3f2fd"
+        android:textColor="#1976d2"/>
+
 </LinearLayout>

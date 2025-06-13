@@ -65,12 +65,16 @@ public class MainActivity extends Activity {
         status.append(hasOverlay ? "GRANTED" : "NOT GRANTED");
         status.append("\n\n");
 
-        if (hasAccessibility && hasOverlay) {
-            status.append("✅ Ready to protect! Tap 'Start Protection' to begin monitoring.");
+        if (hasAccessibility) {
+            if (hasOverlay) {
+                status.append("✅ Full protection ready! Overlays enabled for visual feedback.");
+            } else {
+                status.append("✅ Basic protection ready! Enable overlay for visual feedback (optional).");
+            }
             startServiceButton.setEnabled(true);
             startServiceButton.setText("Start Protection");
         } else {
-            status.append("⚠️ Setup required. Please enable the required permissions above.");
+            status.append("⚠️ Accessibility service required for protection to work.");
             startServiceButton.setEnabled(false);
             startServiceButton.setText("Setup Required");
         }
@@ -96,7 +100,14 @@ public class MainActivity extends Activity {
     }
 
     private void startProtection() {
-        Toast.makeText(this, "Meso Protection Started! Check your notification bar.",
+        // The MonitoringService is an AccessibilityService and starts automatically
+        // when the accessibility service is enabled. We just need to inform the user.
+        
+        // Run a quick test to verify components are working
+        TestHelper.testRiskAnalysis();
+        TestHelper.testRiskLevels();
+        
+        Toast.makeText(this, "Meso Protection is active! The service will monitor social media apps. Check your notification bar.",
                 Toast.LENGTH_LONG).show();
         finish(); // Close the setup activity
     }
@@ -104,7 +115,7 @@ public class MainActivity extends Activity {
     private boolean isAccessibilityServiceEnabled() {
         int accessibilityEnabled = 0;
         final String service = getPackageName() + "/" +
-                "com.socialmediasafety.rating.MesoAccessibilityService";
+                "com.socialmediasafety.rating.MonitoringService";
 
         try {
             accessibilityEnabled = Settings.Secure.getInt(
