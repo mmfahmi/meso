@@ -1,8 +1,12 @@
 package com.socialmediasafety.rating;
+import com.socialmediasafety.rating.Platform;
 
+import com.socialmediasafety.rating.analysis.RiskLevel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import com.socialmediasafety.rating.analysis.RiskAnalysis;
+import com.socialmediasafety.rating.analysis.RiskLevel;
 
 public class ContentAnalyzer {
     private static final String TAG = "ContentAnalyzer";
@@ -149,7 +153,7 @@ public class ContentAnalyzer {
     }
 }
 
-class RiskAnalysis {
+class LocalRiskAnalysis {
     private int financialRisk = 0;
     private int phishingRisk = 0;
     private int spamRisk = 0;
@@ -249,10 +253,4 @@ class RiskAnalysis {
     }
 }
 
-enum Platform {
-    TWITTER, REDDIT, FACEBOOK, DISCORD, INSTAGRAM, UNKNOWN
-}
 
-enum RiskLevel {
-    SAFE, LOW, MEDIUM, HIGH
-}

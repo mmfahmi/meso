@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
+import com.socialmediasafety.rating.analysis.RiskAnalysis;
+import com.socialmediasafety.rating.analysis.RiskLevel;
+
 
 public class MesoServiceReceiver extends BroadcastReceiver {
 

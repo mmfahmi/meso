@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.socialmediasafety.rating.analysis.RiskAnalysis;
+import com.socialmediasafety.rating.analysis.RiskLevel;
+
 
 public class MainActivity extends Activity {
 

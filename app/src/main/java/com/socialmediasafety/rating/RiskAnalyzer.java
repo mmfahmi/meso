@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import com.socialmediasafety.rating.analysis.RiskAnalysis;
+import com.socialmediasafety.rating.analysis.RiskLevel;
 
 /**
  * Risk analysis engine that evaluates social media content for potential threats.

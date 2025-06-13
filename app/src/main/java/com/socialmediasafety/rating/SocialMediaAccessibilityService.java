@@ -22,7 +22,10 @@ import androidx.core.app.NotificationCompat;
 import com.socialmediasafety.rating.R;
 import com.socialmediasafety.rating.MainActivity;
 import com.socialmediasafety.rating.analysis.RiskAnalysis;
-import com.socialmediasafety.rating.analysis.Platform;
+import com.socialmediasafety.rating.Platform;
+import com.socialmediasafety.rating.analysis.RiskAnalysis;
+import com.socialmediasafety.rating.analysis.RiskLevel;
+
 
 public class SocialMediaAccessibilityService extends AccessibilityService {
 

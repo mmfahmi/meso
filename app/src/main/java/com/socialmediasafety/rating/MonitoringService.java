@@ -12,6 +12,9 @@ import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.core.app.NotificationCompat;
+import com.socialmediasafety.rating.analysis.RiskAnalysis;
+import com.socialmediasafety.rating.analysis.RiskLevel;
+
 
 public class MonitoringService extends AccessibilityService {
     private static final String TAG = "MonitoringService";
