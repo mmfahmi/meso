@@ -1,5 +1,8 @@
 R_DEF: Internal format may change without notice
 local
+drawable ic_launcher
+drawable ic_settings
+drawable ic_shield
 id enableAccessibilityButton
 id enableDiscordSwitch
 id enableFacebookSwitch
@@ -7,6 +10,7 @@ id enableInstagramSwitch
 id enableOverlayButton
 id enableRedditSwitch
 id enableTwitterSwitch
+id labelText
 id openSettingsButton
 id sensitivitySeekBar
 id sensitivityText
@@ -14,6 +18,7 @@ id showMinimalRiskSwitch
 id statusText
 layout activity_main
 layout activity_settings
+layout post_overlay
 string accessibility_service_description
 string app_name
 string monitoring_notification_text

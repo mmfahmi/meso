@@ -8,11 +8,12 @@
         android:minSdkVersion="23"
         android:targetSdkVersion="34" />
 
-    <!-- Required permissions for accessibility service and overlay -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <!-- Required permissions -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -28,11 +29,10 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="false"
-        android:icon="@android:drawable/ic_dialog_info"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme" >
-
-        <!-- Main activity -->
         <activity
             android:name="com.socialmediasafety.rating.MainActivity"
             android:exported="true"
@@ -44,16 +44,11 @@
             </intent-filter>
         </activity>
 
-        <!-- Settings activity -->
-        <activity
-            android:name="com.socialmediasafety.rating.SettingsActivity"
-            android:exported="false"
-            android:parentActivityName="com.socialmediasafety.rating.MainActivity" />
-
-        <!-- Accessibility service -->
+        <!-- Accessibility Service -->
         <service
-            android:name="com.socialmediasafety.rating.SocialMediaAccessibilityService"
+            android:name="com.socialmediasafety.rating.MesoAccessibilityService"
             android:exported="false"
+            android:foregroundServiceType="specialUse"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
@@ -64,16 +59,15 @@
                 android:resource="@xml/accessibility_service_config" />
         </service>
 
-        <!-- Overlay service -->
-        <service
-            android:name="com.socialmediasafety.rating.OverlayService"
-            android:exported="false" />
-
-        <!-- Foreground service for persistent monitoring -->
-        <service
-            android:name="com.socialmediasafety.rating.MonitoringService"
-            android:exported="false"
-            android:foregroundServiceType="dataSync" />
+        <!-- Broadcast Receiver for notification actions -->
+        <receiver
+            android:name="com.socialmediasafety.rating.MesoServiceReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="PAUSE_SERVICE" />
+                <action android:name="OPEN_SETTINGS" />
+            </intent-filter>
+        </receiver>
 
         <provider
             android:name="androidx.startup.InitializationProvider"

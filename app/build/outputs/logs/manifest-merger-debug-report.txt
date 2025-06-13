@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:2:1-61:12
-INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:2:1-61:12
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:2:1-56:12
+INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:2:1-56:12
+INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:2:1-56:12
+INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:2:1-56:12
 MERGED from [com.google.android.material:material:1.10.0] /home/yato/.gradle/caches/8.10/transforms/f3cd0a983be45c72def8419c8bbe1b09/transformed/material-1.10.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/yato/.gradle/caches/8.10/transforms/20b5ac78ea561b835475bae196b80abf/transformed/constraintlayout-2.1.4/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.preference:preference:1.2.1] /home/yato/.gradle/caches/8.10/transforms/f0eefcaba53c6cce061c7e92783b7105/transformed/preference-1.2.1/AndroidManifest.xml:17:1-24:12
@@ -60,6 +60,7 @@ MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/y
 MERGED from [androidx.print:print:1.0.0] /home/yato/.gradle/caches/8.10/transforms/5e4a041b59d68490a17cea9d28cca970/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] /home/yato/.gradle/caches/8.10/transforms/1b35c37123e34014a9c50183a14d4997/transformed/jetified-annotation-experimental-1.3.0/AndroidManifest.xml:17:1-22:12
 	package
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:3:5-43
 		INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml
@@ -67,33 +68,37 @@ MERGED from [androidx.annotation:annotation-experimental:1.3.0] /home/yato/.grad
 		INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:2:11-69
-uses-permission#android.permission.FOREGROUND_SERVICE_DATA_SYNC
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:6:5-87
-	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:6:22-84
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:7:5-78
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:6:5-78
 	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:7:22-75
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:6:22-75
 uses-permission#android.permission.BIND_ACCESSIBILITY_SERVICE
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:8:5-85
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:7:5-85
 	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:8:22-82
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:7:22-82
 uses-permission#android.permission.FOREGROUND_SERVICE
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:9:5-77
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:8:5-77
 MERGED from [androidx.work:work-runtime:2.8.1] /home/yato/.gradle/caches/8.10/transforms/81e4d5160583cc331194d5559822a163/transformed/work-runtime-2.8.1/AndroidManifest.xml:26:5-77
 MERGED from [androidx.work:work-runtime:2.8.1] /home/yato/.gradle/caches/8.10/transforms/81e4d5160583cc331194d5559822a163/transformed/work-runtime-2.8.1/AndroidManifest.xml:26:5-77
 	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:9:22-74
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:8:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_SPECIAL_USE
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:9:5-89
+	android:name
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:9:22-86
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:10:5-77
+	android:name
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:10:22-74
 uses-permission#android.permission.WAKE_LOCK
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:10:5-68
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:11:5-68
 MERGED from [androidx.work:work-runtime:2.8.1] /home/yato/.gradle/caches/8.10/transforms/81e4d5160583cc331194d5559822a163/transformed/work-runtime-2.8.1/AndroidManifest.xml:23:5-68
 MERGED from [androidx.work:work-runtime:2.8.1] /home/yato/.gradle/caches/8.10/transforms/81e4d5160583cc331194d5559822a163/transformed/work-runtime-2.8.1/AndroidManifest.xml:23:5-68
 	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:10:22-65
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:11:22-65
 application
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:12:5-59:19
-INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:12:5-59:19
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:13:5-54:19
+INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:13:5-54:19
 MERGED from [com.google.android.material:material:1.10.0] /home/yato/.gradle/caches/8.10/transforms/f3cd0a983be45c72def8419c8bbe1b09/transformed/material-1.10.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.10.0] /home/yato/.gradle/caches/8.10/transforms/f3cd0a983be45c72def8419c8bbe1b09/transformed/material-1.10.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/yato/.gradle/caches/8.10/transforms/20b5ac78ea561b835475bae196b80abf/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
@@ -118,76 +123,74 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /home/yato/.gradle/caches/8
 MERGED from [androidx.startup:startup-runtime:1.1.1] /home/yato/.gradle/caches/8.10/transforms/c1d7785cc9039e04d2036d6f0aaf9c73/transformed/jetified-startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
 	android:extractNativeLibs
 		INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml
+	android:requestLegacyExternalStorage
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:18:9-52
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.9.0] /home/yato/.gradle/caches/8.10/transforms/df999d8573841980540d5854fe2ca752/transformed/core-1.9.0/AndroidManifest.xml:28:18-86
 	android:label
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:15:9-41
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:16:9-41
 	android:icon
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:14:9-56
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:15:9-45
 	android:allowBackup
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:13:9-35
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:14:9-35
 	android:theme
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:16:9-40
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:17:9-40
 activity#com.socialmediasafety.rating.MainActivity
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:19:9-27:20
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:20:9-28:20
 	android:label
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:22:13-45
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:23:13-45
 	android:exported
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:21:13-36
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:22:13-36
 	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:20:13-41
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:21:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:23:13-26:29
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:24:13-27:29
 action#android.intent.action.MAIN
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:24:17-69
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:25:17-69
 	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:24:25-66
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:25:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:25:17-77
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:26:17-77
 	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:25:27-74
-activity#com.socialmediasafety.rating.SettingsActivity
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:30:9-33:58
-	android:parentActivityName
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:33:13-55
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:26:27-74
+service#com.socialmediasafety.rating.MesoAccessibilityService
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:31:9-42:19
 	android:exported
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:32:13-37
-	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:31:13-45
-service#com.socialmediasafety.rating.SocialMediaAccessibilityService
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:36:9-46:19
-	android:exported
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:38:13-37
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:33:13-37
 	android:permission
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:39:13-79
-	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:37:13-60
-intent-filter#action:name:android.accessibilityservice.AccessibilityService
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:40:13-42:29
-action#android.accessibilityservice.AccessibilityService
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:41:17-92
-	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:41:25-89
-meta-data#android.accessibilityservice
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:43:13-45:72
-	android:resource
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:45:17-69
-	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:44:17-60
-service#com.socialmediasafety.rating.OverlayService
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:49:9-51:40
-	android:exported
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:51:13-37
-	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:50:13-43
-service#com.socialmediasafety.rating.MonitoringService
-ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:54:9-57:56
-	android:exported
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:56:13-37
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:35:13-79
 	android:foregroundServiceType
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:57:13-53
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:34:13-55
 	android:name
-		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:55:13-46
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:32:13-53
+intent-filter#action:name:android.accessibilityservice.AccessibilityService
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:36:13-38:29
+action#android.accessibilityservice.AccessibilityService
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:37:17-92
+	android:name
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:37:25-89
+meta-data#android.accessibilityservice
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:39:13-41:72
+	android:resource
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:41:17-69
+	android:name
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:40:17-60
+receiver#com.socialmediasafety.rating.MesoServiceReceiver
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:45:9-52:20
+	android:exported
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:47:13-37
+	android:name
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:46:13-48
+intent-filter#action:name:OPEN_SETTINGS+action:name:PAUSE_SERVICE
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:48:13-51:29
+action#PAUSE_SERVICE
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:49:17-56
+	android:name
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:49:25-53
+action#OPEN_SETTINGS
+ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:50:17-56
+	android:name
+		ADDED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml:50:25-53
 uses-sdk
 INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/yato/repo/meso/app/src/main/AndroidManifest.xml

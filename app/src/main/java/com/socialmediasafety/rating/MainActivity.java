@@ -6,137 +6,138 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+public class MainActivity extends Activity {
 
-/**
- * Main activity for the Social Media Safety Rating app.
- * Handles initial setup, permissions, and navigation to settings.
- */
-public class MainActivity extends AppCompatActivity {
-    
-    private static final int OVERLAY_PERMISSION_REQUEST = 1;
-    private static final int ACCESSIBILITY_PERMISSION_REQUEST = 2;
-    
+    private static final int REQUEST_OVERLAY_PERMISSION = 1001;
+    private static final int REQUEST_ACCESSIBILITY_PERMISSION = 1002;
+
+    private TextView statusText;
     private Button enableAccessibilityButton;
     private Button enableOverlayButton;
-    private Button openSettingsButton;
-    private TextView statusText;
-    
+    private Button startServiceButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        initializeViews();
-        setupClickListeners();
-        updateUI();
+
+        initViews();
+        updateStatus();
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
-        updateUI();
+        updateStatus();
     }
-    
-    private void initializeViews() {
+
+    private void initViews() {
+        statusText = findViewById(R.id.statusText);
         enableAccessibilityButton = findViewById(R.id.enableAccessibilityButton);
         enableOverlayButton = findViewById(R.id.enableOverlayButton);
-        openSettingsButton = findViewById(R.id.openSettingsButton);
-        statusText = findViewById(R.id.statusText);
-    }
-    
-    private void setupClickListeners() {
+        startServiceButton = findViewById(R.id.startServiceButton);
+
         enableAccessibilityButton.setOnClickListener(v -> openAccessibilitySettings());
         enableOverlayButton.setOnClickListener(v -> requestOverlayPermission());
-        openSettingsButton.setOnClickListener(v -> openAppSettings());
+        startServiceButton.setOnClickListener(v -> startProtection());
     }
-    
-    private void updateUI() {
-        boolean hasAccessibilityPermission = isAccessibilityServiceEnabled();
-        boolean hasOverlayPermission = canDrawOverlays();
-        
-        enableAccessibilityButton.setEnabled(!hasAccessibilityPermission);
-        enableOverlayButton.setEnabled(!hasOverlayPermission);
-        
-        if (hasAccessibilityPermission && hasOverlayPermission) {
-            statusText.setText("✅ Social Media Safety Rating is active!\n\n" +
-                    "The app is now monitoring your social media apps for potentially harmful content. " +
-                    "Safety badges will appear automatically on risky posts.\n\n" +
-                    "Supported apps:\n" +
-                    "• Twitter/X\n" +
-                    "• Reddit\n" +
-                    "• Facebook\n" +
-                    "• Discord\n" +
-                    "• Instagram");
-        } else if (!hasAccessibilityPermission && !hasOverlayPermission) {
-            statusText.setText("⚠️ Setup Required\n\n" +
-                    "Please enable both permissions below to start protecting yourself from harmful social media content:");
-        } else if (!hasAccessibilityPermission) {
-            statusText.setText("⚠️ Accessibility Permission Required\n\n" +
-                    "Please enable the accessibility service to allow the app to monitor social media content.");
+
+    private void updateStatus() {
+        boolean hasAccessibility = isAccessibilityServiceEnabled();
+        boolean hasOverlay = canDrawOverlays();
+
+        StringBuilder status = new StringBuilder();
+        status.append("Meso Protection Setup\n\n");
+
+        status.append("✓ Accessibility Service: ");
+        status.append(hasAccessibility ? "ENABLED" : "DISABLED");
+        status.append("\n");
+
+        status.append("✓ Overlay Permission: ");
+        status.append(hasOverlay ? "GRANTED" : "NOT GRANTED");
+        status.append("\n\n");
+
+        if (hasAccessibility && hasOverlay) {
+            status.append("✅ Ready to protect! Tap 'Start Protection' to begin monitoring.");
+            startServiceButton.setEnabled(true);
+            startServiceButton.setText("Start Protection");
         } else {
-            statusText.setText("⚠️ Overlay Permission Required\n\n" +
-                    "Please enable overlay permission to display safety badges over other apps.");
+            status.append("⚠️ Setup required. Please enable the required permissions above.");
+            startServiceButton.setEnabled(false);
+            startServiceButton.setText("Setup Required");
         }
+
+        statusText.setText(status.toString());
+
+        enableAccessibilityButton.setEnabled(!hasAccessibility);
+        enableOverlayButton.setEnabled(!hasOverlay);
     }
-    
+
     private void openAccessibilitySettings() {
         Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-        startActivity(intent);
-        
-        Toast.makeText(this, 
-                "Find 'Social Media Safety Rating' in the list and enable it", 
-                Toast.LENGTH_LONG).show();
+        startActivityForResult(intent, REQUEST_ACCESSIBILITY_PERMISSION);
+        Toast.makeText(this, "Find 'Meso' in the list and enable it", Toast.LENGTH_LONG).show();
     }
-    
+
     private void requestOverlayPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST);
-            }
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, REQUEST_OVERLAY_PERMISSION);
         }
     }
-    
-    private void openAppSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+
+    private void startProtection() {
+        Toast.makeText(this, "Meso Protection Started! Check your notification bar.",
+                Toast.LENGTH_LONG).show();
+        finish(); // Close the setup activity
     }
-    
+
     private boolean isAccessibilityServiceEnabled() {
-        // Check if our accessibility service is enabled
-        String service = getPackageName() + "/" + SocialMediaAccessibilityService.class.getName();
-        String enabledServices = Settings.Secure.getString(
-                getContentResolver(),
-                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-        
-        return enabledServices != null && enabledServices.contains(service);
+        int accessibilityEnabled = 0;
+        final String service = getPackageName() + "/" +
+                "com.socialmediasafety.rating.MesoAccessibilityService";
+
+        try {
+            accessibilityEnabled = Settings.Secure.getInt(
+                    getApplicationContext().getContentResolver(),
+                    Settings.Secure.ACCESSIBILITY_ENABLED);
+        } catch (Settings.SettingNotFoundException e) {
+            return false;
+        }
+
+        if (accessibilityEnabled == 1) {
+            String settingValue = Settings.Secure.getString(
+                    getApplicationContext().getContentResolver(),
+                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+
+            if (settingValue != null) {
+                return settingValue.contains(service);
+            }
+        }
+
+        return false;
     }
-    
+
     private boolean canDrawOverlays() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Settings.canDrawOverlays(this);
         }
-        return true; // Assume permission granted for older versions
+        return true;
     }
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
-        if (requestCode == OVERLAY_PERMISSION_REQUEST) {
-            if (canDrawOverlays()) {
-                Toast.makeText(this, "Overlay permission granted!", Toast.LENGTH_SHORT).show();
-                updateUI();
-            } else {
-                Toast.makeText(this, "Overlay permission is required for the app to work", 
-                        Toast.LENGTH_LONG).show();
-            }
+
+        if (requestCode == REQUEST_OVERLAY_PERMISSION ||
+                requestCode == REQUEST_ACCESSIBILITY_PERMISSION) {
+            updateStatus();
         }
     }
 }

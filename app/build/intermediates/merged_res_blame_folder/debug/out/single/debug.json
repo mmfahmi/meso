@@ -1,14 +1,34 @@
 [
     {
-        "merged": "com.socialmediasafety.rating.app-merged_res-44:/layout_activity_main.xml.flat",
-        "source": "com.socialmediasafety.rating.app-main-46:/layout/activity_main.xml"
+        "merged": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-merged_res-44:/layout_activity_settings.xml.flat",
+        "source": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-main-46:/layout/activity_settings.xml"
     },
     {
-        "merged": "com.socialmediasafety.rating.app-merged_res-44:/layout_activity_settings.xml.flat",
-        "source": "com.socialmediasafety.rating.app-main-46:/layout/activity_settings.xml"
+        "merged": "com.socialmediasafety.rating.app-merged_res-44:/layout_post_overlay.xml.flat",
+        "source": "com.socialmediasafety.rating.app-main-46:/layout/post_overlay.xml"
     },
     {
-        "merged": "com.socialmediasafety.rating.app-merged_res-44:/xml_accessibility_service_config.xml.flat",
-        "source": "com.socialmediasafety.rating.app-main-46:/xml/accessibility_service_config.xml"
+        "merged": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-merged_res-44:/layout_post_overlay.xml.flat",
+        "source": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-main-46:/layout/post_overlay.xml"
+    },
+    {
+        "merged": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-merged_res-44:/xml_accessibility_service_config.xml.flat",
+        "source": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-main-46:/xml/accessibility_service_config.xml"
+    },
+    {
+        "merged": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-merged_res-44:/drawable_ic_settings.xml.flat",
+        "source": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-main-46:/drawable/ic_settings.xml"
+    },
+    {
+        "merged": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-merged_res-44:/drawable_ic_launcher.xml.flat",
+        "source": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-main-46:/drawable/ic_launcher.xml"
+    },
+    {
+        "merged": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-merged_res-44:/layout_activity_main.xml.flat",
+        "source": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-main-46:/layout/activity_main.xml"
+    },
+    {
+        "merged": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-merged_res-44:/drawable_ic_shield.xml.flat",
+        "source": "/home/yato/.gradle/daemon/8.10/com.socialmediasafety.rating.app-main-46:/drawable/ic_shield.xml"
     }
 ]

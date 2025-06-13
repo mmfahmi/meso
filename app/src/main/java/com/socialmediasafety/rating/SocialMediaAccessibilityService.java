@@ -1,110 +1,270 @@
 package com.socialmediasafety.rating;
 
-import android.accessibilityservice.AccessibilityService;
-import android.accessibilityservice.AccessibilityServiceInfo;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
-import android.util.Log;
+import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.os.Build;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.accessibilityservice.AccessibilityService;
+import android.widget.TextView;
+import androidx.core.app.NotificationCompat;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import com.socialmediasafety.rating.R;
+import com.socialmediasafety.rating.MainActivity;
+import com.socialmediasafety.rating.analysis.RiskAnalysis;
+import com.socialmediasafety.rating.analysis.Platform;
 
-/**
- * Accessibility Service that monitors social media apps for potentially harmful content
- * and displays safety ratings using overlay badges.
- */
 public class SocialMediaAccessibilityService extends AccessibilityService {
-    
-    private static final String TAG = "SocialMediaAccess";
-    
-    // Supported social media package names
-    private static final Set<String> SUPPORTED_PACKAGES = new HashSet<String>() {{
-        add("com.twitter.android");
-        add("com.reddit.frontpage");
-        add("com.facebook.katana");
-        add("com.discord");
-        add("com.instagram.android");
-    }};
-    
-    private RiskAnalyzer riskAnalyzer;
-    private OverlayManager overlayManager;
-    private ExecutorService executor;
-    private boolean isEnabled = false;
-    
+
+    private static final String CHANNEL_ID = "meso_foreground_service";
+    private static final int NOTIFICATION_ID = 1001;
+
+    private WindowManager windowManager;
+    private NotificationManager notificationManager;
+    private boolean isServiceRunning = false;
+    private int postsAnalyzed = 0;
+    private int threatsDetected = 0;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "Social Media Accessibility Service created");
-        
-        riskAnalyzer = new RiskAnalyzer();
-        overlayManager = new OverlayManager(this);
-        executor = Executors.newSingleThreadExecutor();
-        
-        // Initialize service components
-        initializeService();
+        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        createNotificationChannel();
+        startForegroundService();
     }
-    
-    @Override
-    public void onServiceConnected() {
-        super.onServiceConnected();
-        Log.d(TAG, "Accessibility service connected");
-        
-        // Configure service info
-        AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-        info.eventTypes = AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED | 
-                         AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
-        info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
-        info.flags = AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS |
-                    AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS;
-        info.notificationTimeout = 100;
-        
-        setServiceInfo(info);
-        isEnabled = true;
-    }
-    
+
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        if (!isEnabled) return;
-        
-        String packageName = event.getPackageName() != null ? 
-                           event.getPackageName().toString() : "";
-        
-        // Only process supported social media apps
-        if (!SUPPORTED_PACKAGES.contains(packageName)) {
-            return;
+        if (!isServiceRunning) return;
+
+        AccessibilityNodeInfo rootNode = getRootInActiveWindow();
+        if (rootNode == null) return;
+
+        String packageName = event.getPackageName().toString();
+        Platform platform = detectPlatform(packageName);
+
+        // Focus on Twitter for now
+        if (platform == Platform.TWITTER) {
+            analyzeTwitterPosts(rootNode);
         }
-        
-        Log.d(TAG, "Processing event for: " + packageName);
-        
-        // Process the event asynchronously to avoid blocking
-        executor.submit(() -> processAccessibilityEvent(event, packageName));
+
+        rootNode.recycle();
     }
-    
-    private void processAccessibilityEvent(AccessibilityEvent event, String packageName) {
-        try {
-            AccessibilityNodeInfo rootNode = getRootInActiveWindow();
-            if (rootNode == null) return;
-            
-            Platform platform = detectPlatform(packageName);
-            List<ContentNode> contentNodes = extractContentNodes(rootNode, platform);
-            
-            for (ContentNode contentNode : contentNodes) {
-                analyzeAndDisplayRating(contentNode, platform);
+
+    @Override
+    public void onInterrupt() {
+        stopForegroundService();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopForegroundService();
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Meso Protection Service",
+                    NotificationManager.IMPORTANCE_LOW
+            );
+            channel.setDescription("Monitors social media for scams and threats");
+            channel.setShowBadge(false);
+            channel.setSound(null, null);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void startForegroundService() {
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Meso Protection Active")
+                .setContentText("Monitoring social media - " + postsAnalyzed + " posts analyzed")
+                .setSmallIcon(R.drawable.ic_shield)
+                .setContentIntent(pendingIntent)
+                .setOngoing(true)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setColor(Color.GREEN)
+                .addAction(R.drawable.ic_pause, "Pause", createPauseIntent())
+                .addAction(R.drawable.ic_settings, "Settings", createSettingsIntent())
+                .build();
+
+        startForeground(NOTIFICATION_ID, notification);
+        isServiceRunning = true;
+    }
+
+    private void updateNotification() {
+        if (!isServiceRunning) return;
+
+        String statusText = String.format("Analyzed: %d posts | Threats: %d",
+                postsAnalyzed, threatsDetected);
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Meso Protection Active")
+                .setContentText(statusText)
+                .setSmallIcon(R.drawable.ic_shield)
+                .setOngoing(true)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setColor(threatsDetected > 0 ? Color.YELLOW : Color.GREEN)
+                .build();
+
+        notificationManager.notify(NOTIFICATION_ID, notification);
+    }
+
+    private void stopForegroundService() {
+        isServiceRunning = false;
+        stopForeground(true);
+    }
+
+    private PendingIntent createPauseIntent() {
+        Intent intent = new Intent(this, MesoServiceReceiver.class);
+        intent.setAction("PAUSE_SERVICE");
+        return PendingIntent.getBroadcast(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    }
+
+    private PendingIntent createSettingsIntent() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setAction("OPEN_SETTINGS");
+        return PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    }
+
+    private void analyzeTwitterPosts(AccessibilityNodeInfo rootNode) {
+        // Find Twitter post containers
+        findTwitterPosts(rootNode);
+    }
+
+    private void findTwitterPosts(AccessibilityNodeInfo node) {
+        if (node == null) return;
+
+        // Twitter post detection - look for tweet containers
+        String resourceId = node.getViewIdResourceName();
+        String className = node.getClassName() != null ? node.getClassName().toString() : "";
+
+        // Common Twitter post identifiers
+        if (resourceId != null && (
+                resourceId.contains("tweet") ||
+                        resourceId.contains("status") ||
+                        resourceId.contains("timeline"))) {
+
+            String postText = extractTextFromNode(node);
+            if (!postText.isEmpty()) {
+                analyzeAndOverlayPost(node, postText);
             }
-            
-            rootNode.recycle();
-            
-        } catch (Exception e) {
-            Log.e(TAG, "Error processing accessibility event", e);
+        }
+
+        // Recursively check child nodes
+        for (int i = 0; i < node.getChildCount(); i++) {
+            AccessibilityNodeInfo child = node.getChild(i);
+            if (child != null) {
+                findTwitterPosts(child);
+                child.recycle();
+            }
         }
     }
-    
+
+    private void analyzeAndOverlayPost(AccessibilityNodeInfo postNode, String text) {
+        RiskAnalysis analysis = analyzeContent(text, Platform.TWITTER);
+        postsAnalyzed++;
+
+        // Determine if it's Clean or Scam
+        boolean isScam = analysis.getTotalRiskScore() > 0.6; // Threshold for scam detection
+        if (isScam) {
+            threatsDetected++;
+        }
+
+        // Create overlay
+        createPostOverlay(postNode, isScam ? "SCAM" : "CLEAN", isScam);
+
+        // Update notification every 10 posts
+        if (postsAnalyzed % 10 == 0) {
+            updateNotification();
+        }
+    }
+
+    private void createPostOverlay(AccessibilityNodeInfo postNode, String label, boolean isScam) {
+        // Get post position on screen
+        android.graphics.Rect bounds = new android.graphics.Rect();
+        postNode.getBoundsInScreen(bounds);
+
+        // Create overlay view
+        View overlayView = LayoutInflater.from(this).inflate(R.layout.post_overlay, null);
+        TextView labelView = overlayView.findViewById(R.id.labelText);
+
+        labelView.setText(label);
+        labelView.setBackgroundColor(isScam ? Color.RED : Color.GREEN);
+        labelView.setTextColor(Color.WHITE);
+
+        // Set overlay parameters
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ?
+                        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY :
+                        WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE |
+                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+                PixelFormat.TRANSLUCENT
+        );
+
+        // Position overlay at top-right of post
+        params.gravity = Gravity.TOP | Gravity.START;
+        params.x = bounds.right - 150; // 150px from right edge
+        params.y = bounds.top + 20;    // 20px from top
+
+        try {
+            windowManager.addView(overlayView, params);
+
+            // Auto-remove overlay after 5 seconds
+            overlayView.postDelayed(() -> {
+                try {
+                    windowManager.removeView(overlayView);
+                } catch (Exception e) {
+                    // View might already be removed
+                }
+            }, 5000);
+
+        } catch (Exception e) {
+            // Handle overlay permission issues
+            e.printStackTrace();
+        }
+    }
+
+    private String extractTextFromNode(AccessibilityNodeInfo node) {
+        StringBuilder text = new StringBuilder();
+        if (node.getText() != null) {
+            text.append(node.getText().toString());
+        }
+
+        for (int i = 0; i < node.getChildCount(); i++) {
+            AccessibilityNodeInfo child = node.getChild(i);
+            if (child != null) {
+                text.append(" ").append(extractTextFromNode(child));
+                child.recycle();
+            }
+        }
+        return text.toString().trim();
+    }
+
     private Platform detectPlatform(String packageName) {
         switch (packageName) {
             case "com.twitter.android":
@@ -115,217 +275,49 @@ public class SocialMediaAccessibilityService extends AccessibilityService {
                 return Platform.FACEBOOK;
             case "com.discord":
                 return Platform.DISCORD;
-            case "com.instagram.android":
-                return Platform.INSTAGRAM;
             default:
                 return Platform.UNKNOWN;
         }
     }
-    
-    private List<ContentNode> extractContentNodes(AccessibilityNodeInfo rootNode, Platform platform) {
-        List<ContentNode> contentNodes = new ArrayList<>();
-        
-        switch (platform) {
-            case TWITTER:
-                extractTwitterContent(rootNode, contentNodes);
-                break;
-            case REDDIT:
-                extractRedditContent(rootNode, contentNodes);
-                break;
-            case FACEBOOK:
-                extractFacebookContent(rootNode, contentNodes);
-                break;
-            case DISCORD:
-                extractDiscordContent(rootNode, contentNodes);
-                break;
+
+    private RiskAnalysis analyzeContent(String text, Platform platform) {
+        RiskAnalysis analysis = new RiskAnalysis();
+
+        // Basic scam detection patterns
+        text = text.toLowerCase();
+
+        // Financial scam indicators
+        if (text.contains("crypto") && (text.contains("guaranteed") || text.contains("profit"))) {
+            analysis.addRisk("Crypto scam indicators", 0.8);
         }
-        
-        return contentNodes;
-    }
-    
-    private void extractTwitterContent(AccessibilityNodeInfo node, List<ContentNode> contentNodes) {
-        // Look for tweet content containers
-        if (node.getClassName() != null && 
-            (node.getClassName().toString().contains("Tweet") ||
-             node.getViewIdResourceName() != null && 
-             node.getViewIdResourceName().contains("tweet"))) {
-            
-            String text = extractTextFromNode(node);
-            if (text.length() > 10) { // Minimum text length
-                Rect bounds = new Rect();
-                node.getBoundsInScreen(bounds);
-                contentNodes.add(new ContentNode(text, bounds, Platform.TWITTER));
-            }
+
+        if (text.contains("bitcoin") && text.contains("double")) {
+            analysis.addRisk("Bitcoin doubling scam", 0.9);
         }
-        
-        // Recursively search child nodes
-        for (int i = 0; i < node.getChildCount(); i++) {
-            AccessibilityNodeInfo child = node.getChild(i);
-            if (child != null) {
-                extractTwitterContent(child, contentNodes);
-                child.recycle();
-            }
+
+        if (text.contains("click here") && text.contains("win")) {
+            analysis.addRisk("Click-bait scam", 0.7);
         }
-    }
-    
-    private void extractRedditContent(AccessibilityNodeInfo node, List<ContentNode> contentNodes) {
-        // Look for Reddit post containers
-        if (node.getClassName() != null && 
-            (node.getClassName().toString().contains("Post") ||
-             node.getViewIdResourceName() != null && 
-             (node.getViewIdResourceName().contains("post") ||
-              node.getViewIdResourceName().contains("title")))) {
-            
-            String text = extractTextFromNode(node);
-            if (text.length() > 10) {
-                Rect bounds = new Rect();
-                node.getBoundsInScreen(bounds);
-                contentNodes.add(new ContentNode(text, bounds, Platform.REDDIT));
-            }
+
+        // Phishing indicators
+        if (text.contains("verify") && text.contains("account")) {
+            analysis.addRisk("Account verification phishing", 0.8);
         }
-        
-        for (int i = 0; i < node.getChildCount(); i++) {
-            AccessibilityNodeInfo child = node.getChild(i);
-            if (child != null) {
-                extractRedditContent(child, contentNodes);
-                child.recycle();
-            }
+
+        if (text.contains("suspended") && text.contains("click")) {
+            analysis.addRisk("Account suspension phishing", 0.9);
         }
-    }
-    
-    private void extractFacebookContent(AccessibilityNodeInfo node, List<ContentNode> contentNodes) {
-        // Facebook content extraction logic
-        if (node.getText() != null && node.getText().length() > 10) {
-            Rect bounds = new Rect();
-            node.getBoundsInScreen(bounds);
-            if (bounds.width() > 200 && bounds.height() > 50) { // Reasonable post size
-                contentNodes.add(new ContentNode(node.getText().toString(), bounds, Platform.FACEBOOK));
-            }
+
+        // Urgency indicators
+        if (text.contains("urgent") || text.contains("limited time")) {
+            analysis.addRisk("Urgency manipulation", 0.6);
         }
-        
-        for (int i = 0; i < node.getChildCount(); i++) {
-            AccessibilityNodeInfo child = node.getChild(i);
-            if (child != null) {
-                extractFacebookContent(child, contentNodes);
-                child.recycle();
-            }
+
+        // Giveaway scams
+        if (text.contains("giveaway") && text.contains("retweet")) {
+            analysis.addRisk("Fake giveaway", 0.7);
         }
-    }
-    
-    private void extractDiscordContent(AccessibilityNodeInfo node, List<ContentNode> contentNodes) {
-        // Discord message extraction
-        if (node.getClassName() != null && 
-            (node.getClassName().toString().contains("Message") ||
-             node.getViewIdResourceName() != null && 
-             node.getViewIdResourceName().contains("message"))) {
-            
-            String text = extractTextFromNode(node);
-            if (text.length() > 5) {
-                Rect bounds = new Rect();
-                node.getBoundsInScreen(bounds);
-                contentNodes.add(new ContentNode(text, bounds, Platform.DISCORD));
-            }
-        }
-        
-        for (int i = 0; i < node.getChildCount(); i++) {
-            AccessibilityNodeInfo child = node.getChild(i);
-            if (child != null) {
-                extractDiscordContent(child, contentNodes);
-                child.recycle();
-            }
-        }
-    }
-    
-    private String extractTextFromNode(AccessibilityNodeInfo node) {
-        StringBuilder text = new StringBuilder();
-        
-        if (node.getText() != null) {
-            text.append(node.getText().toString().trim());
-        }
-        
-        if (node.getContentDescription() != null) {
-            text.append(" ").append(node.getContentDescription().toString().trim());
-        }
-        
-        // Recursively extract text from children
-        for (int i = 0; i < node.getChildCount(); i++) {
-            AccessibilityNodeInfo child = node.getChild(i);
-            if (child != null) {
-                String childText = extractTextFromNode(child);
-                if (!childText.isEmpty()) {
-                    text.append(" ").append(childText);
-                }
-                child.recycle();
-            }
-        }
-        
-        return text.toString().trim();
-    }
-    
-    private void analyzeAndDisplayRating(ContentNode contentNode, Platform platform) {
-        // Analyze content for risks
-        RiskAnalysis analysis = riskAnalyzer.analyzeContent(contentNode.getText(), platform);
-        
-        // Only show badges for content with some risk
-        if (analysis.getRiskScore() > 0) {
-            overlayManager.showRatingBadge(contentNode.getBounds(), analysis);
-            Log.d(TAG, String.format("Displayed %s risk badge for %s content", 
-                  analysis.getRiskLevel(), platform.name()));
-        }
-    }
-    
-    private void initializeService() {
-        // Start overlay service
-        Intent overlayIntent = new Intent(this, OverlayService.class);
-        startService(overlayIntent);
-        
-        // Start monitoring service
-        Intent monitoringIntent = new Intent(this, MonitoringService.class);
-        startService(monitoringIntent);
-    }
-    
-    @Override
-    public void onInterrupt() {
-        Log.d(TAG, "Accessibility service interrupted");
-        isEnabled = false;
-    }
-    
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "Accessibility service destroyed");
-        
-        isEnabled = false;
-        
-        if (executor != null) {
-            executor.shutdown();
-        }
-        
-        if (overlayManager != null) {
-            overlayManager.cleanup();
-        }
-        
-        // Stop services
-        stopService(new Intent(this, OverlayService.class));
-        stopService(new Intent(this, MonitoringService.class));
-    }
-    
-    /**
-     * Inner class to represent extracted content with its screen position
-     */
-    private static class ContentNode {
-        private final String text;
-        private final Rect bounds;
-        private final Platform platform;
-        
-        public ContentNode(String text, Rect bounds, Platform platform) {
-            this.text = text;
-            this.bounds = bounds;
-            this.platform = platform;
-        }
-        
-        public String getText() { return text; }
-        public Rect getBounds() { return bounds; }
-        public Platform getPlatform() { return platform; }
+
+        return analysis;
     }
 }
