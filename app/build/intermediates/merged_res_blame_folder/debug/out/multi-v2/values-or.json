@@ -4,7 +4,7 @@
             "outputFile": "com.socialmediasafety.rating.app-mergeDebugResources-42:/values-or/values-or.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\fahmi\\.gradle\\caches\\8.10\\transforms\\f3cd0a983be45c72def8419c8bbe1b09\\transformed\\material-1.10.0\\res\\values-or\\values-or.xml",
+                    "source": "/home/yato/.gradle/caches/8.10/transforms/f3cd0a983be45c72def8419c8bbe1b09/transformed/material-1.10.0/res/values-or/values-or.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\fahmi\\.gradle\\caches\\8.10\\transforms\\56ded7c2935c3d6ae7254fb5de720d3c\\transformed\\appcompat-1.6.1\\res\\values-or\\values-or.xml",
+                    "source": "/home/yato/.gradle/caches/8.10/transforms/56ded7c2935c3d6ae7254fb5de720d3c/transformed/appcompat-1.6.1/res/values-or/values-or.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -40,24 +40,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\fahmi\\.gradle\\caches\\8.10\\transforms\\f0eefcaba53c6cce061c7e92783b7105\\transformed\\preference-1.2.1\\res\\values-or\\values-or.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "105,179,268,348,487,656,737",
-                        "endColumns": "73,88,79,138,168,80,81",
-                        "endOffsets": "174,263,343,482,651,732,814"
-                    },
-                    "to": {
-                        "startLines": "41,43,102,104,107,108,109",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "3771,3910,8481,8645,8975,9144,9225",
-                        "endColumns": "73,88,79,138,168,80,81",
-                        "endOffsets": "3840,3994,8556,8779,9139,9220,9302"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\fahmi\\.gradle\\caches\\8.10\\transforms\\df999d8573841980540d5854fe2ca752\\transformed\\core-1.9.0\\res\\values-or\\values-or.xml",
+                    "source": "/home/yato/.gradle/caches/8.10/transforms/df999d8573841980540d5854fe2ca752/transformed/core-1.9.0/res/values-or/values-or.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -71,6 +54,23 @@
                         "startOffsets": "8874",
                         "endColumns": "100",
                         "endOffsets": "8970"
+                    }
+                },
+                {
+                    "source": "/home/yato/.gradle/caches/8.10/transforms/f0eefcaba53c6cce061c7e92783b7105/transformed/preference-1.2.1/res/values-or/values-or.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "105,179,268,348,487,656,737",
+                        "endColumns": "73,88,79,138,168,80,81",
+                        "endOffsets": "174,263,343,482,651,732,814"
+                    },
+                    "to": {
+                        "startLines": "41,43,102,104,107,108,109",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "3771,3910,8481,8645,8975,9144,9225",
+                        "endColumns": "73,88,79,138,168,80,81",
+                        "endOffsets": "3840,3994,8556,8779,9139,9220,9302"
                     }
                 }
             ]

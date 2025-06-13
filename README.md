@@ -1,3 +1,4 @@
+53
 # Social Media Safety Rating - Android Mobile Port
 
 This port adapts the browser extension functionality to work on Android mobile apps (Twitter, Reddit, Facebook, Discord) using Android's Accessibility Service API.

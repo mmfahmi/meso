@@ -4,7 +4,7 @@
             "outputFile": "com.socialmediasafety.rating.app-mergeDebugResources-42:/values-sw360dp-v13/values-sw360dp-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\fahmi\\.gradle\\caches\\8.10\\transforms\\f0eefcaba53c6cce061c7e92783b7105\\transformed\\preference-1.2.1\\res\\values-sw360dp-v13\\values-sw360dp-v13.xml",
+                    "source": "/home/yato/.gradle/caches/8.10/transforms/f0eefcaba53c6cce061c7e92783b7105/transformed/preference-1.2.1/res/values-sw360dp-v13/values-sw360dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
