@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- App Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🛡️ Social Media Safety Rating"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Protect yourself from scams, phishing, and harmful content across social media platforms"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"
+            android:alpha="0.7" />
+
+        <!-- Status Section -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textSize="14sp"
+                android:lineSpacingExtra="4dp"
+                android:text="Checking permissions..." />
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Permission Buttons -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Required Permissions"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/enableAccessibilityButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. Enable Accessibility Service"
+            android:textAllCaps="false"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#2196F3" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Allows the app to read content from social media apps to analyze for safety risks"
+            android:textSize="12sp"
+            android:alpha="0.6"
+            android:layout_marginBottom="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+
+        <Button
+            android:id="@+id/enableOverlayButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2. Enable Display Over Other Apps"
+            android:textAllCaps="false"
+            android:padding="16dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#FF9800" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Allows the app to show safety badges over social media posts"
+            android:textSize="12sp"
+            android:alpha="0.6"
+            android:layout_marginBottom="24dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp" />
+
+        <!-- Settings Button -->
+        <Button
+            android:id="@+id/openSettingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⚙️ App Settings"
+            android:textAllCaps="false"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.Material3.Button.OutlinedButton" />
+
+        <!-- Info Section -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🔒 Privacy Notice"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• All analysis happens locally on your device\n• No data is sent to external servers\n• Content is analyzed in real-time and not stored\n• You can disable the service at any time"
+                    android:textSize="12sp"
+                    android:lineSpacingExtra="2dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>
